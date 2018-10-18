@@ -18,7 +18,7 @@ items:
           network: "sddc-cgw-network-3"
           num_cpus: "2"
           memory: "2048"
-          vm_template: "centos_cloud_template"
+          vm_template: "ubuntu-16.04-server-cloudimg-amd64"
           disk_label: ""
           disk_size: ""
           virtual_machine_domain: ""
