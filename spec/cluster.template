@@ -7,12 +7,12 @@ spec:
         services:
             cidrBlocks: ["10.96.0.0/12"]
         pods:
-            cidrBlocks: ["100.96.0.0/16"]
+            cidrBlocks: ["${POD_CIDR}"]
         serviceDomain: "cluster.local"
     providerConfig:
       value:
         apiVersion: "vsphereproviderconfig/v1alpha1"
         kind: "VsphereClusterProviderConfig"
-        vsphereUser: ""
-        vspherePassword: ""
-        vsphereServer: ""
+        vsphereUser: "$VSPHERE_USERNAME"
+        vspherePassword: "$VSPHERE_PASSWORD"
+        vsphereServer: "$VSPHERE_SERVER"
