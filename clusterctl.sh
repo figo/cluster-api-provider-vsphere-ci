@@ -3,6 +3,11 @@
 # this script takes care of everything after bootstrap cluster created, it means
 # bootstrap need be created beforehand.
 
+
+# export necessary enviroment variables
+echo "getting enviroment variable from $1"
+. "$1"
+
 # update specs, requires following enviroments variables:
 # POD_CIDR
 # VSPHERE_SERVER
@@ -25,9 +30,12 @@ done
 rm temp.sh
 
 
+# download kubectl binary
+wget https://storage.googleapis.com/kubernetes-release/release/v1.10.2/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl
+chmod +x /usr/local/bin/kubectl
+
 # run clusterctl
 ./bin/clusterctl create cluster --existing-bootstrap-cluster-kubeconfig ~/.kube/config -c ./spec/cluster.yml -m ./spec/machines.yml -p ./spec/provider-components.yml --provider vsphere  -v 6
-
 
 # cleanup the cluster
 # TODO (clusterctl delete is not working, but does not support existing bootstrap cluster)
