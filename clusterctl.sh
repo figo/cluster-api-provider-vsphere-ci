@@ -1,5 +1,5 @@
 #!/bin/sh
-set -x
+
 # this script takes care of everything after bootstrap cluster created, it means
 # bootstrap need be created beforehand.
 
