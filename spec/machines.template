@@ -12,31 +12,21 @@ items:
         kind: "VsphereMachineProviderConfig"
         vsphereMachine: "standard-master"
         machineVariables:
-          datacenter: "SDDC-Datacenter"
-          datastore: "WorkloadDatastore"
-          resource_pool: "clusterapi"
-          vm_folder: "clusterapi"
-          network: "sddc-cgw-network-3"
-          num_cpus: "2"
-          memory: "2048"
-          vm_template: "ubuntu-16.04-server-cloudimg-amd64"
-          disk_label: "Hard disk 1"
-          disk_size: "15"
-          virtual_machine_domain: ""
         machineSpec:
           datacenter: "SDDC-Datacenter"
           datastore: "WorkloadDatastore"
-          resource_pool: "clusterapi"
-          vm_folder: "clusterapi"
+          resourcePool: "clusterapi"
+          vmFolder: "clusterapi"
           networks:
           - networkName: "sddc-cgw-network-3"
-            ifConfig:
+            ipConfig:
               networkType: dhcp
-          num_cpus: "2"
-          memory: "2048"
-          vm_template: "ubuntu-16.04-server-cloudimg-amd64"
-          disk_label: "Hard disk 1"
-          disk_size: "15"
+          numCPUs: 2
+          memoryMB: 2048
+          template: "ubuntu-16.04-server-cloudimg-amd64"
+          disks:
+          - diskLabel: "Hard disk 1"
+            diskSizeGB: 15
     versions:
       kubelet: 1.10.1
       controlPlane: 1.10.1
