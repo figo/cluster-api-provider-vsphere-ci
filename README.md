@@ -1,6 +1,6 @@
 Test cluster-api-provider-vsphere
 
-***Launch CI***
+***Launch CI***  
 ```
 docker run \
   --rm \
@@ -14,9 +14,9 @@ docker run \
   -ti luoh/cluster-api-provider-vsphere-travis-ci:latest
 ```
 note: set `$VSPHER_MACHINE_CONTROLLER_REGISTRY` if you want to test your local build controller
-
-
-***Architecture***
+   
+   
+***Architecture***  
 ```
 
                                              +-----------------------------------+
@@ -39,3 +39,11 @@ note: set `$VSPHER_MACHINE_CONTROLLER_REGISTRY` if you want to test your local b
       +----------------------+               +-----------------------------------+
                                              
 ```
+   
+   
+***Containers***  
+the vsphere-machine-controller containers for CI purpose are hosted at `luoh/cluster-api-provider-vsphere`  
+the cluster-api-provider-vsphere-travis-ci hosted at `luoh/cluster-api-provider-vsphere-travis-ci`  
+the cluster-api-provider-vsphere-ci hosted at `luoh/cluster-api-provider-vsphere-ci`  
+the [job spec](https://gist.githubusercontent.com/figo/989ede156d4a0d722244fb0c16d5ba80/raw/3a995366a08e361d0ca8d9892a82b580eda4b91b/job.yml) for cluster-api-provider-vsphere-ci  
+   
