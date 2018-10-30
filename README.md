@@ -13,5 +13,29 @@ docker run \
   -e VSPHERE_MACHINE_CONTROLLER_REGISTRY=$VSPHERE_MACHINE_CONTROLLER_REGISTRY \
   -ti luoh/cluster-api-provider-vsphere-travis-ci:latest
 ```
-
 note: set `$VSPHER_MACHINE_CONTROLLER_REGISTRY` if you want to test your local build controller
+
+
+***Architecture***
+```
+
+                                             +-----------------------------------+
+      +----------------------+               |          VMC Infra                |
+      |   travis-ci env      |               |-----------------------------------|
+      |----------------------|               |+----+ +--------------------------+|
+      |                      |               ||    | |  bootstrap cluster       ||
+      |                      |               ||    | |                          ||
+      | cluster-api-vsphere- |               ||JUMP| |  cluster-api-vsphere-ci  ||
+      | travis-ci            |  SSH + HTTP   ||HOST| |  (a k8s job)             ||
+      |                      | +-----------> ||    | |                          ||
+      |                      | <-----------+ ||    | |                          ||
+      |                      |               ||    | +--------------------------+|
+      |                      |               ||    |                             |
+      |                      |               ||    | +--------------------------+|
+      |                      |               ||    | |  target cluster          ||
+      |                      |               ||    | |                          ||
+      |                      |               ||    | |                          ||
+      |                      |               |+----+ +--------------------------+|
+      +----------------------+               +-----------------------------------+
+                                             
+```
