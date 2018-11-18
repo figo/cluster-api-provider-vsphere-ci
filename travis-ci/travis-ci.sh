@@ -39,6 +39,10 @@ controller_registry=${VSPHERE_MACHINE_CONTROLLER_REGISTRY:-luoh/cluster-api-prov
 echo "test ${controller_registry}"
 run_cmd_on_bootstrap "${bootstrap_vm_ip}" "sed -i 's|{VSPHERE_MACHINE_CONTROLLER_REGISTRY}|'${controller_registry}'|g' ~/.config/envs"
 
+
+provider_component=${PROVIDER_COMPONENT_SPEC:-provider-components-v1.0.yml}
+echo "test ${provider_component}"
+run_cmd_on_bootstrap "${bootstrap_vm_ip}" "sed -i 's|{PROVIDER_COMPONENT_SPEC}|'${provider_component}'|g' ~/.config/envs"
 # ssh to bootstrap VM and deploy the CI container to bootstrap cluster
 job="kubectl create -f https://gist.githubusercontent.com/figo/989ede156d4a0d722244fb0c16d5ba80/raw/3a995366a08e361d0ca8d9892a82b580eda4b91b/job.yml"
 run_cmd_on_bootstrap "${bootstrap_vm_ip}" "${job}"

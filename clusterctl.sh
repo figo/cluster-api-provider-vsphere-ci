@@ -35,7 +35,8 @@ wget https://storage.googleapis.com/kubernetes-release/release/v1.10.2/bin/linux
 chmod +x /usr/local/bin/kubectl
 
 # run clusterctl
-./bin/clusterctl create cluster --existing-bootstrap-cluster-kubeconfig ~/.kube/config -c ./spec/cluster.yml -m ./spec/machines.yml -p ./spec/provider-components-v2.0.yml --provider vsphere  -v 6
+echo "test ${PROVIDER_COMPONENT_SPEC}"
+./bin/clusterctl create cluster --existing-bootstrap-cluster-kubeconfig ~/.kube/config -c ./spec/cluster.yml -m ./spec/machines.yml -p ./spec/${PROVIDER_COMPONENT_SPEC} --provider vsphere  -v 6
 
 # cleanup the cluster
 # TODO (clusterctl delete is not working, but does not support existing bootstrap cluster)
