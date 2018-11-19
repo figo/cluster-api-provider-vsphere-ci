@@ -7,6 +7,7 @@
 # export necessary enviroment variables
 echo "getting enviroment variable from $1"
 . "$1"
+export
 
 # update specs, requires following enviroments variables:
 # POD_CIDR

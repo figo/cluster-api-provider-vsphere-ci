@@ -35,12 +35,12 @@ delete_vm() {
 
 get_bootstrap_vm
 
-controller_registry=${VSPHERE_MACHINE_CONTROLLER_REGISTRY:-luoh/cluster-api-provider-vsphere:0.0.11}
+controller_registry=${VSPHERE_MACHINE_CONTROLLER_REGISTRY:=luoh/cluster-api-provider-vsphere:0.0.11}
 echo "test ${controller_registry}"
 run_cmd_on_bootstrap "${bootstrap_vm_ip}" "sed -i 's|{VSPHERE_MACHINE_CONTROLLER_REGISTRY}|'${controller_registry}'|g' ~/.config/envs"
 
 
-provider_component=${PROVIDER_COMPONENT_SPEC:-provider-components-v1.0.yml}
+provider_component=${PROVIDER_COMPONENT_SPEC:=provider-components-v1.0.yml}
 echo "test ${provider_component}"
 run_cmd_on_bootstrap "${bootstrap_vm_ip}" "sed -i 's|{PROVIDER_COMPONENT_SPEC}|'${provider_component}'|g' ~/.config/envs"
 # ssh to bootstrap VM and deploy the CI container to bootstrap cluster
