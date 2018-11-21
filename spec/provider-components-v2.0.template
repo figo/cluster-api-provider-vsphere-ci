@@ -303,7 +303,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
-        image: $VSPHERE_MACHINE_CONTROLLER_REGISTRY
+        image: $VSPHERE_CONTROLLER_VERSION
         name: manager
         resources:
           limits:
