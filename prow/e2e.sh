@@ -138,10 +138,10 @@ install_govc() {
    go install github.com/vmware/govmomi/govc
 }
 
+vsphere_controller_version=""
 # the main loop
-vsphere_controller_version="$1"
-echo "build vSphere controller version: ${vsphere_controller_version}"
 if [ -z "${PROW_JOB_ID}" ] ; then
+   vsphere_controller_version="$1"
    start_docker
    clone_clusterapi_vsphere_repo
    current=$(pwd)
@@ -150,9 +150,11 @@ if [ -z "${PROW_JOB_ID}" ] ; then
    cd "${current}" || exit 1
 else
    # in Prow context, clusterapi-vsphere already been checked out
+   vsphere_controller_version="${PULL_PULL_SHA}"
    export VERSION="${vsphere_controller_version}" && make ci-push
    cd ./../../figo/cluster-api-provider-vsphere-ci/prow || exit 1
 fi
+echo "build vSphere controller version: ${vsphere_controller_version}"
 
 # get bootstrap VM
 install_govc
