@@ -130,12 +130,12 @@ clone_clusterapi_vsphere_repo() {
 }
 
 install_govc() {
-   GOVC_VERSION=0.19.0
-   go get -d github.com/vmware/govmomi
-   git --work-tree /go/src/github.com/vmware/govmomi \
-       --git-dir /go/src/github.com/vmware/govmomi/.git \
-       checkout -b v${GOVC_VERSION} v${GOVC_VERSION} && \
-   go install github.com/vmware/govmomi/govc
+   govc_bin="/tmp/govc/bin"
+   mkdir -p "${govc_bin}"
+   curl -sL https://github.com/vmware/govmomi/releases/download/v0.19.0/govc_linux_amd64.gz -o "${govc_bin}"/govc.gz
+   gunzip "${govc_bin}"/govc.gz
+   chmod +x "${govc_bin}"/govc
+   export PATH=${govc_bin}:$PATH
 }
 
 vsphere_controller_version=""
