@@ -10,15 +10,15 @@ PWD := $(shell pwd)
 
 build: 
 	docker build . --tag $(REGISTRY):$(VERSION)
-	docker tag $(REGISTRY):$(VERSION) $(REGISTRY):latest
+	docker tag $(REGISTRY):$(VERSION) $(REGISTRY):debug
         
 upload:
 	@echo "logging into gcr.io registry with key file"
 	@echo $$GCR_KEY_FILE | docker login -u _json_key --password-stdin gcr.io
 	docker push $(REGISTRY):$(VERSION)
-	docker push $(REGISTRY):latest
+	docker push $(REGISTRY):debug
 	@echo docker logout gcr.io
 
 clean:
 	docker image rm -f $(REGISTRY):$(VERSION)
-	docker image rm -f $(REGISTRY):latest
+	docker image rm -f $(REGISTRY):debug

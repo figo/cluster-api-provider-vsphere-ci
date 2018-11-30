@@ -11,7 +11,7 @@ spec:
         key: node-role.kubernetes.io/master
       containers:
       - name: cluster-api-provider-vsphere-ci
-        image: gcr.io/cnx-cluster-api/cluster-api-provider-vsphere-ci:latest
+        image: gcr.io/cnx-cluster-api/cluster-api-provider-vsphere-ci:debug
         env:
           - name: TARGET_VM_SSH
             valueFrom:

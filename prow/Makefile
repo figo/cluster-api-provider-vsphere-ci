@@ -10,13 +10,13 @@ PWD := $(shell pwd)
 
 build: 
 	docker build . --tag $(REGISTRY):$(VERSION)
-	docker tag $(REGISTRY):$(VERSION) $(REGISTRY):latest
+	docker tag $(REGISTRY):$(VERSION) $(REGISTRY):debug
         
 upload:
 	docker login -u="$(DOCKER_USERNAME)" -p="$(DOCKER_PASSWORD)";
 	docker push $(REGISTRY):$(VERSION)
-	docker push $(REGISTRY):latest
+	docker push $(REGISTRY):debug
 
 clean:
 	docker image rm -f $(REGISTRY):$(VERSION)
-	docker image rm -f $(REGISTRY):latest
+	docker image rm -f $(REGISTRY):debug
