@@ -11,7 +11,7 @@ spec:
         key: node-role.kubernetes.io/master
       containers:
       - name: cluster-api-provider-vsphere-ci
-        image: luoh/cluster-api-provider-vsphere-prow-ci:latest
+        image: luoh/cluster-api-provider-vsphere-prow-ci:debug
         env:
           - name: JUMPHOST
             valueFrom:

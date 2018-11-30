@@ -10,8 +10,6 @@ items:
       value:
         apiVersion: "vsphereproviderconfig/v1alpha1"
         kind: "VsphereMachineProviderConfig"
-        vsphereMachine: "standard-master"
-        machineVariables:
         machineSpec:
           datacenter: "SDDC-Datacenter"
           datastore: "WorkloadDatastore"
