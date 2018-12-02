@@ -39,12 +39,10 @@ fill_file_with_value() {
 }
 
 revert_bootstrap_vm() {
-   dc=$(govc find -type d)
-   bootstrap_vm=$(govc find vm -name clusterapi-bootstrap-debug)
-   bootstrap_vm_name="${dc}/${bootstrap_vm}"
+   bootstrap_vm=$(govc find / -type m -name clusterapi-bootstrap-debug)
    snapshot_name="cluster-api-provider-vsphere-ci-0.0.1"
-   govc snapshot.revert -vm "${bootstrap_vm_name}" "${snapshot_name}"  
-   bootstrap_vm_ip=$(govc vm.ip "${bootstrap_vm_name}")
+   govc snapshot.revert -vm "${bootstrap_vm}" "${snapshot_name}"  
+   bootstrap_vm_ip=$(govc vm.ip "${bootstrap_vm}")
 }
 
 run_cmd_on_bootstrap() {
@@ -55,10 +53,9 @@ run_cmd_on_bootstrap() {
 }
 
 delete_vm() {
-   dc=$(govc find -type d)
-   vm=$(govc find vm -name "$1""-*")
-   govc vm.power -off "${dc}/${vm}"
-   govc vm.destroy "${dc}/${vm}"
+   vm=$(govc find / -type m -name "$1""-*")
+   govc vm.power -off "${vm}"
+   govc vm.destroy "${vm}"
 }
 
 get_bootstrap_vm() {
@@ -83,21 +80,26 @@ get_bootstrap_vm() {
    echo "bootstrapper VM ip: ${bootstrap_vm_ip}"
 }
 
+export_base64_value() {
+   base64_value=$(echo -n "$2" | base64 -w 0)
+   export "$1"="$base64_value"
+}
+
 apply_secret_to_bootstrap() {
    provider_component=${PROVIDER_COMPONENT_SPEC:=provider-components-v2.0.yml}
-   export PROVIDER_COMPONENT_SPEC=$(echo -n "${provider_component}" | base64 -w 0)
+   export_base64_value "PROVIDER_COMPONENT_SPEC" "${provider_component}"
    echo "test ${provider_component}"
 
    echo "test controller version $1"
    vsphere_controller_version="gcr.io/cnx-cluster-api/vsphere-cluster-api-provider:$1"
-   export VSPHERE_CONTROLLER_VERSION=$(echo -n "${vsphere_controller_version}" | base64 -w 0)
+   export_base64_value "VSPHERE_CONTROLLER_VERSION" "${vsphere_controller_version}"
    echo "test ${vsphere_controller_version}"
 
-   export VSPHERE_SERVER=$(echo -n "${GOVC_URL}" | base64 -w 0)
-   export VSPHERE_USERNAME=$(echo -n "${GOVC_USERNAME}" | base64 -w 0)
-   export VSPHERE_PASSWORD=$(echo -n "${GOVC_PASSWORD}" | base64 -w 0)
-   export TARGET_VM_SSH=$(echo -n "${TARGET_VM_SSH}" | base64 -w 0)
-   export TARGET_VM_SSH_PUB=$(echo -n "${TARGET_VM_SSH_PUB}" | base64 -w 0)
+   export_base64_value "VSPHERE_SERVER" "${GOVC_URL}"
+   export_base64_value "VSPHERE_USERNAME" "${GOVC_USERNAME}"
+   export_base64_value "VSPHERE_PASSWORD" "${GOVC_PASSWORD}"
+   export_base64_value "TARGET_VM_SSH" "${TARGET_VM_SSH}"
+   export_base64_value "TARGET_VM_SSH_PUB" "${TARGET_VM_SSH_PUB}"
 
    fill_file_with_value "bootstrap_secret.template"
    run_cmd_on_bootstrap "${bootstrap_vm_ip}" "cat > /tmp/bootstrap_secret.yml" < bootstrap_secret.yml
