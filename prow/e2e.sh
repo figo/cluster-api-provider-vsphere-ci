@@ -39,7 +39,7 @@ fill_file_with_value() {
 }
 
 revert_bootstrap_vm() {
-   bootstrap_vm=$(govc find / -type m -name clusterapi-bootstrap-prow)
+   bootstrap_vm=$(govc find / -type m -name clusterapi-bootstrap-debug)
    snapshot_name="cluster-api-provider-vsphere-ci-0.0.1"
    govc snapshot.revert -vm "${bootstrap_vm}" "${snapshot_name}"  
    bootstrap_vm_ip=$(govc vm.ip "${bootstrap_vm}")
@@ -174,7 +174,7 @@ run_cmd_on_bootstrap "${bootstrap_vm_ip}" 'bash -s' < wait_for_job.sh
 ret="$?"
 
 # cleanup
-delete_vm "clusterapi-prow"
+delete_vm "clusterapi-debug"
 get_bootstrap_vm
 
 exit "${ret}"
