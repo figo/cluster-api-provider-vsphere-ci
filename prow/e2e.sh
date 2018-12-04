@@ -39,7 +39,7 @@ fill_file_with_value() {
 }
 
 revert_bootstrap_vm() {
-   bootstrap_vm=$(govc find / -type m -name clusterapi-bootstrap-debug)
+   bootstrap_vm=$(govc find / -type m -name clusterapi-bootstrap-prow)
    snapshot_name="cluster-api-provider-vsphere-ci-0.0.1"
    govc snapshot.revert -vm "${bootstrap_vm}" "${snapshot_name}"  
    bootstrap_vm_ip=$(govc vm.ip "${bootstrap_vm}")
@@ -166,6 +166,7 @@ get_bootstrap_vm
 apply_secret_to_bootstrap "${vsphere_controller_version}"
 
 # launch the job at bootstrap cluster
+fill_file_with_value "bootstrap_job.template"
 run_cmd_on_bootstrap "${bootstrap_vm_ip}" "cat > /tmp/bootstrap_job.yml" < bootstrap_job.yml
 run_cmd_on_bootstrap "${bootstrap_vm_ip}" "kubectl create -f /tmp/bootstrap_job.yml"
 
@@ -174,7 +175,7 @@ run_cmd_on_bootstrap "${bootstrap_vm_ip}" 'bash -s' < wait_for_job.sh
 ret="$?"
 
 # cleanup
-delete_vm "clusterapi-debug"
+delete_vm "clusterapi-prow"
 get_bootstrap_vm
 
 exit "${ret}"
